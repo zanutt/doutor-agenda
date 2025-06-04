@@ -1,7 +1,5 @@
 "use client";
 
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,12 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import LoginForm from "./components/login-form";
 import SignUpForm from "./components/sign-up-form";
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
 
 const AuthenticationPage = () => {
   return (
@@ -30,16 +24,7 @@ const AuthenticationPage = () => {
             <TabsTrigger value="register">Criar Conta</TabsTrigger>
           </TabsList>
           <TabsContent value="login">
-            <Card>
-              <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>Faça login para continuar</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-6"></CardContent>
-              <CardFooter>
-                <Button>Entrar</Button>
-              </CardFooter>
-            </Card>
+            <LoginForm />
           </TabsContent>
           <TabsContent value="register">
             <SignUpForm />

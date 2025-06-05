@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -14,29 +16,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormMessage } from "@/components/ui/form";
+import { FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 
 const registerSchema = z.object({
   name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
-  email: z.string().trim().email({ message: "Email inválido" }),
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: "E-mail é obrigatório" })
+    .email({ message: "E-mail inválido" }),
   password: z
     .string()
     .trim()
-    .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
+    .min(8, { message: "A senha deve ter pelo menos 8 caracteres" }),
 });
 
 const SignUpForm = () => {
   const router = useRouter();
-
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -73,7 +73,7 @@ const SignUpForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <CardHeader>
-            <CardTitle>Criar Conta</CardTitle>
+            <CardTitle>Criar conta</CardTitle>
             <CardDescription>Crie uma conta para continuar.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -95,9 +95,9 @@ const SignUpForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>E-mail</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite seu email" {...field} />
+                    <Input placeholder="Digite seu e-mail" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -111,8 +111,8 @@ const SignUpForm = () => {
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
                       placeholder="Digite sua senha"
+                      type="password"
                       {...field}
                     />
                   </FormControl>
@@ -130,7 +130,7 @@ const SignUpForm = () => {
               {form.formState.isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Criar Conta"
+                "Criar conta"
               )}
             </Button>
           </CardFooter>
